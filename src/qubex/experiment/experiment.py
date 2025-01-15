@@ -870,6 +870,7 @@ class Experiment:
         self,
         box_ids: Optional[list[str]] = None,
         exclude: Optional[list[str]] = None,
+        confirm: bool = True,
     ):
         """
         Configure the measurement system from the config files.
@@ -891,6 +892,7 @@ class Experiment:
         )
         self.state_manager.push(
             box_ids=box_ids or self.box_ids,
+            confirm=confirm
         )
 
     def reload(self):
