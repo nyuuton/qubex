@@ -619,11 +619,13 @@ class Experiment(
 
     @property
     def rabi_params(self) -> dict[str, RabiParam]:
-        params = {}
-        for target in self.ge_targets | self.ef_targets:
-            param = self.get_rabi_param(target)
+        params: dict[str, RabiParam] = {}
+        for label, target in self.targets.items():
+            if not (target.is_ge or target.is_ef):
+                continue
+            param = self.get_rabi_param(label)
             if param is not None:
-                params[target] = param
+                params[label] = param
         return params
 
     @property
@@ -1630,7 +1632,7 @@ class Experiment(
     ) -> float:
         qubit = Target.qubit_label(target)
         if rabi_amplitude_ratio is None:
-            rabi_param = self.rabi_params.get(target)
+            rabi_param = self.get_rabi_param(target)
             if self.targets[target].type == TargetType.CTRL_EF:
                 default_amplitude = self.params.get_ef_control_amplitude(qubit)
             else:
