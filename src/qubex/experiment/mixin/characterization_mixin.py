@@ -2120,7 +2120,7 @@ class CharacterizationMixin(
         frequency_range = np.arange(f_start, f_start + df * n_samples, df)
 
         def _execute():
-            self.reset_awg_and_capunits(qubits=[qubit_label])
+            self.reset_awg_and_capunits(box_ids=[read_box.id])
             phases = []
             for freq in frequency_range:
                 with self.modified_frequencies({read_label: freq}):
@@ -2283,7 +2283,7 @@ class CharacterizationMixin(
             cnco_center = CNCO_CETNER_READ
 
         for subrange in subranges:
-            self.reset_awg_and_capunits(qubits=[qubit_label])
+            self.reset_awg_and_capunits(box_ids=[read_box.id])
 
             f_center = (subrange[0] + subrange[-1]) / 2
             lo, cnco, _ = MixingUtil.calc_lo_cnco(
